@@ -1,6 +1,7 @@
 import type { Actions } from "@sveltejs/kit"
 import { prisma } from '$lib/server/prisma'
 import { fail } from "assert";
+import { Console } from "console";
 
 export const actions: Actions = {
     createUser: async ({ request }) => {
@@ -9,15 +10,32 @@ export const actions: Actions = {
             name:string
         }
         try {
-            await prisma.user.create({
-                data: {
-                    email,
-                    name
+            const user = await prisma.user.findFirst({
+                where: {
+                    email: email
                 }
             })
+            
+            if(user) {
+                return {
+                    message: "Email Já Existe"
+                }
+            }
+            else {
+                await prisma.user.create({
+                    data: {
+                        email,
+                        name
+                    }
+                })
+            }
         } catch (err) {
             console.error(err);
-            fail(500, {message: "Falha ao criar usuário"});
+            fail(500, "Erro ao criar usuário")
         }
-    }, 
+        
+        return {
+            status: 201
+        }
+    },
 }
