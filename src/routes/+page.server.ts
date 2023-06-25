@@ -4,9 +4,10 @@ import { fail } from "assert";
 
 export const actions: Actions = {
     createUser: async ({ request }) => {
-        const {email, name} = Object.fromEntries(await request.formData()) as {
+        const {email, name, password} = Object.fromEntries(await request.formData()) as {
             email:string, 
-            name:string
+            name:string,
+            password:string
         }
         try {
             const user = await prisma.user.findFirst({
@@ -25,7 +26,8 @@ export const actions: Actions = {
                 await prisma.user.create({
                     data: {
                         email,
-                        name
+                        name,
+                        password
                     }
                 })
             }

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import "@picocss/pico"
     export let form;
 </script>
 
@@ -13,6 +14,8 @@
             <input type="email" id="email" name="email" required/>
             <label for="name">Nome</label>
             <input type="text" id="name" name="name" required/>
+            <label for="password">Senha</label>
+            <input type="password" id="password" name="password" required/>
             <button type="submit">Cadastrar</button>
         </form>
     </body>
