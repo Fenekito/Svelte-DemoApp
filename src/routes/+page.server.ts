@@ -1,7 +1,6 @@
 import type { Actions } from "@sveltejs/kit"
 import { prisma } from '$lib/server/prisma'
 import { fail } from "assert";
-import { Console } from "console";
 
 export const actions: Actions = {
     createUser: async ({ request }) => {
@@ -18,6 +17,7 @@ export const actions: Actions = {
             
             if(user) {
                 return {
+                    status: 409,
                     message: "Email Já Existe"
                 }
             }
@@ -35,7 +35,8 @@ export const actions: Actions = {
         }
         
         return {
-            status: 201
+            status: 201,
+            message: "Usuário Criado Com Sucesso"
         }
     },
 }
